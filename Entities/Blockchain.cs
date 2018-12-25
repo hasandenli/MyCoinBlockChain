@@ -6,6 +6,7 @@ namespace Entities
 {
     public class Blockchain
     {
+        public int Difficulty = 3;
         public List<Block> BlockChain { set;  get; }
 
         public Blockchain()
@@ -26,6 +27,7 @@ namespace Entities
         public void AddGenesisBlock()
         {
             BlockChain.Add(new Block(DateTime.Now, null, "{}"));
+            BlockChain[0].MineBlock(this.Difficulty);
         }
         
         public Block GetLastBlock()
@@ -38,7 +40,7 @@ namespace Entities
             Block lastBlock = GetLastBlock();
             block.BlockIndex = lastBlock.BlockIndex + 1;
             block.PreviousBlockHash = lastBlock.CurrentBlockHash;
-            block.CurrentBlockHash = block.CalculateHash();
+            block.MineBlock(this.Difficulty);
             BlockChain.Add(block);
         }
 
